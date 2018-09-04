@@ -53,19 +53,24 @@ namespace IS4DemoApp.IDP
                 {
                     ClientId = "mvc",
                     ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
 
-                    // where to redirect to after login
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+
                     RedirectUris = { "http://localhost:5002/signin-oidc" },
-
-                    // where to redirect to after logout
                     PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
-                    }
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api1"
+                    },
+
+                    AllowOfflineAccess = true
                 }
 
             };
@@ -111,6 +116,5 @@ namespace IS4DemoApp.IDP
             };
         }
         
-
     }
 }
